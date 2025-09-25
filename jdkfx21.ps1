@@ -2,13 +2,11 @@
 # Java 21 + JavaFX 21 Setup (Full Auto)
 # =========================
 # Run this script as Administrator
-$progressPreference = 'silentlyContinue'
-Write-Host "Installing WinGet PowerShell module from PSGallery..."
-Install-PackageProvider -Name NuGet -Force | Out-Null
-Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
-Write-Host "Using Repair-WinGetPackageManager cmdlet to bootstrap WinGet..."
-Repair-WinGetPackageManager -AllUsers
-Write-Host "Done."
+# Ensure WinGet is available (optional, but good practice for robust scripts)
+if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+    Write-Host "WinGet is not installed. Please install it first."
+    exit
+}
 
 Write-Host "Installing JDK 21 (Temurin)..." -ForegroundColor Cyan
 winget install -e --id EclipseAdoptium.Temurin.21.JDK --silent
